@@ -14,11 +14,11 @@ export async function getProducts(): Promise<Product[]> {
     const response = await fetch(
       `${BASE_URL}/products?limit=8&select=id,title,price,category,thumbnail,stock`
     );
-    
+
     if (!response.ok) {
       throw new Error('Error al obtener productos');
     }
-    
+
     const data = await response.json();
     return data.products || [];
   } catch (error) {
@@ -33,11 +33,11 @@ export async function getProducts(): Promise<Product[]> {
 export async function getProductById(id: number): Promise<Product | null> {
   try {
     const response = await fetch(`${BASE_URL}/products/${id}`);
-    
+
     if (!response.ok) {
       throw new Error(`Error al obtener producto ${id}`);
     }
-    
+
     return await response.json();
   } catch (error) {
     console.error(`Error en getProductById(${id}):`, error);
