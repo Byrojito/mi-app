@@ -16,7 +16,7 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.container}>
         <Link href="/" className={styles.logo}>
-          <h1>🛍️ ShopHub</h1>
+          <h1> ShopHub</h1>
         </Link>
 
         <nav className={styles.nav}>
