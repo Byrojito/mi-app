@@ -20,9 +20,9 @@ export default function Header() {
         </Link>
 
         <nav className={styles.nav}>
-          <span className={styles.cartLink}>
+          <Link href="/carrito" className={styles.cartLink}>
             🛒 Carrito ({totalItems})
-          </span>
+          </Link>
         </nav>
       </div>
     </header>

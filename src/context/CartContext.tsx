@@ -1,14 +1,9 @@
 'use client';
 
-/**
- * CartContext - Gestiona el estado global del carrito
- * Proporciona acceso a los items del carrito y funciones para manipularlo
- */
-
 import { createContext, useContext, useState, ReactNode } from 'react';
 import { Product, CartItem, CartContextType } from '@/types';
 
-// Crear el contexto
+
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 /**
@@ -16,7 +11,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
  */
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
-
+  
   /**
    * Agregar un producto al carrito o incrementar cantidad si ya existe
    */
@@ -49,11 +44,28 @@ export function CartProvider({ children }: { children: ReactNode }) {
   };
 
   /**
-   * Eliminar un producto del carrito
+   Eliminar un producto del carrito
    */
   const removeFromCart = (productId: number) => {
     setCartItems((prevItems) =>
       prevItems.filter((item) => item.id !== productId)
+    );
+  };
+
+  /**
+   * Actualizar la cantidad de un producto puntual.
+   * Si la cantidad resultante es <= 0, se elimina del carrito.
+   */
+  const updateQuantity = (productId: number, quantity: number) => {
+    if (quantity <= 0) {
+      removeFromCart(productId);
+      return;
+    }
+
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === productId ? { ...item, quantity } : item
+      )
     );
   };
 
@@ -71,14 +83,26 @@ export function CartProvider({ children }: { children: ReactNode }) {
     return cartItems.reduce((total, item) => total + item.quantity, 0);
   };
 
+  /**
+   * Obtener el precio total del carrito
+   */
+  const getTotalPrice = () => {
+    return cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
+  };
+
   return (
     <CartContext.Provider
       value={{
         cartItems,
         addToCart,
         removeFromCart,
+        updateQuantity,
         clearCart,
         getTotalItems,
+        getTotalPrice,
       }}
     >
       {children}

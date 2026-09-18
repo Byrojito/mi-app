@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
 import styles from './ProductDetail.module.css';
+import { useState } from 'react';
 
 interface ProductDetailProps {
   product: Product;
@@ -16,9 +17,11 @@ interface ProductDetailProps {
 export default function ProductDetail({ product }: ProductDetailProps) {
   const { addToCart } = useCart();
 
+
   const handleAddToCart = () => {
     addToCart(product);
   };
+
 
   return (
     <div className={styles.container}>
@@ -80,6 +83,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           </button>
         </div>
       </div>
+
     </div>
   );
 }
